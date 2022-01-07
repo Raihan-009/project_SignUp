@@ -1,0 +1,88 @@
+.container
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.half-part
+{
+    flex: 1;
+    margin: 5px;
+    /* border: 2px red solid; */
+    padding: 10px;
+}
+
+.half-part img
+{
+    width: 100%;
+}
+
+.half-part:first-child
+{
+    margin: 5px;
+}
+.submit-button
+{
+    margin-top: 15px;
+    box-sizing: border-box;
+    padding: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    background: green;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.center_text
+{
+    text-align: center;
+}
+.login_link
+{
+    /* background-color: green; */
+    margin-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    /* border: 2px solid red; */
+}
+
+.login_link a
+{
+    text-decoration: none;
+}
+
+.input_icons i
+{
+    position: absolute;
+}
+.icon
+{
+    padding: 10px;
+    min-width: 50px;
+    color: green;
+    margin-right: 60px;
+    /* text-align: center; */
+}
+.stay_connect
+{
+    /* border: 2px solid red; */
+    margin-top: 15px;
+    text-align: center;
+    /* display: block; */
+}
+.iconn 
+{
+    margin-top: 0px;
+    font-size: 35px;
+    margin-right: 5px;
+}
+
+@media (max-width : 700px)
+{
+    .container
+    {
+        flex-direction: column;
+    }
+}
