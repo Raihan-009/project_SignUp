@@ -28,9 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
         $confirmuserinfoAlert = "Your info didnt match.";
       }
-  
-
-      
+            
     }else
     {
         $entryAlert = "Please submit all of the given entry";
@@ -83,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     <!-- front end part starts here : sign up session -->
         <div class="container mt-3">
             <div class="half-part">
-                <img src="demo.jpeg" alt="">
+                <img src="login_demo.jpeg" alt="">
             </div>
             <div class="half-part">
                 <h3 class = "center_text">Log in to continue the WEB Apps!</h3>
