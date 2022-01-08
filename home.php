@@ -26,7 +26,16 @@
         echo '<div>
                 <h1 class="center_text">Welcome '. $_SESSION['username'] .'</h1>
             </div>';
-    ?>
+    ?> 
+
+    <div class="container">
+      <img src="demoHome.jpeg" class = "img-fluid rounded mx-auto d-block" alt="">
+      <h3 class = "center_text">This site is under development</h3>
+    </div>
+
+    <div class="center_text">
+      <a href="logout.php" class = "mt-3 btn btn-outline-primary btn-lg">Log Out</a>
+    </div>
 
     <!-- js dependencies -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
