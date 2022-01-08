@@ -23,9 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
-            if ($password == $confirmpassword)
+            if (($password == $confirmpassword))
             {
-                $sql = "INSERT INTO `users_info` (`Username`, `Password`, `Time`) VALUES ('$username', '$password', current_timestamp())";
+                $secret = password_hash($password, PASSWORD_DEFAULT);
+                // echo $secret;
+                $sql = "INSERT INTO `users_info` (`Username`, `Password`, `Time`) VALUES ('$username', '$secret', current_timestamp())";
                 $result = mysqli_query($conn, $sql);
                 if ($result)
                 {
@@ -102,16 +104,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                 <form action = "/project_SignUp/signup.php" method = "post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name = "username" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="username" name = "username" maxlength="10" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="pass" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pass" name = "pass" aria-describedby="emailHelp">
+                        <input type="password" class="form-control" id="pass" name = "pass" minlength="8" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="confirmpass" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmpass" name = "confirmpass">
+                        <input type="password" class="form-control" id="confirmpass" name = "confirmpass" minlength="8">
                     </div>
                     <button class ="submit-button" type="submit">Submit</button>
                 </form>

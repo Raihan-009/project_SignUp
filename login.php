@@ -12,22 +12,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if (!empty ($username) && !empty($password))
     {
-      $sql = "SELECT * from `users_info` WHERE username = '$username'  AND password = '$password'";
+      $sql = "SELECT * from `users_info` WHERE username = '$username'";
       $result = mysqli_query($conn, $sql);
       $num = mysqli_num_rows($result);
     
       if ($num == 1)
       {
-        $loginAlert = true;
-        session_start();
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        header("location: home.php");
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                if (password_verify($password, $row['Password']))
+                {
+                    $loginAlert = true;
+                    session_start();
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['username'] = $username;
+                    header("location: home.php");
+                    
+                }else
+                {
+                    $confirmuserinfoAlert = "Your info didnt match.";
+                }
+            }
+        }else
+        {
+            $confirmuserinfoAlert = "Your info didnt match.";
+        }
         
-      }else
-      {
-        $confirmuserinfoAlert = "Your info didnt match.";
-      }
             
     }else
     {
@@ -88,11 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                 <form action = "/project_SignUp/login.php" method = "post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name = "username" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="username" name = "username" maxlength="10" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="pass" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pass" name = "pass" aria-describedby="emailHelp">
+                        <input type="password" class="form-control" id="pass" name = "pass" minlength="8" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     </div>
                     <button class ="submit-button" type="submit">Submit</button>
