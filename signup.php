@@ -10,20 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $username = $_POST['username'];
     $password = $_POST['pass'];
     $confirmpassword = $_POST['confirmpass'];
+    $usernameexistsAlert = false;
 
     if (!empty ($username) && !empty($password) && !empty($confirmpassword))
     {
-        if ($password == $confirmpassword)
+        $_sql = "SELECT * FROM `users_info` WHERE username = '$username'";
+        $result = mysqli_query($conn, $_sql);
+        $numberofusername = mysqli_num_rows($result);
+        if ($numberofusername > 0)
         {
-            $sql = "INSERT INTO `users_info` (`Username`, `Password`, `Time`) VALUES ('$username', '$password', current_timestamp())";
-            $result = mysqli_query($conn, $sql);
-            if ($result)
+            $usernameexistsAlert = "Username already exists.";
+        }
+        else
+        {
+            if ($password == $confirmpassword)
             {
-                $signupAlert = true;
+                $sql = "INSERT INTO `users_info` (`Username`, `Password`, `Time`) VALUES ('$username', '$password', current_timestamp())";
+                $result = mysqli_query($conn, $sql);
+                if ($result)
+                {
+                    $signupAlert = true;
+                }
+            }else
+            {
+                $confirmpasswordAlert = "Plase submit same password carefully";
             }
-        }else
-        {
-            $confirmpasswordAlert = "Plase submit same password carefully";
         }
     }else
     {
@@ -70,6 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         {
             echo '<div class="alert alert-danger alert-dismissible" role="alert">
                         <strong>Invalid Input!</strong> '. $entryAlert .'
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+        }
+        if ($usernameexistsAlert)
+        {
+            echo '<div class="alert alert-danger alert-dismissible" role="alert">
+                        <strong>Invalid Username!</strong> '. $usernameexistsAlert .'
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
         }
