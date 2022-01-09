@@ -117,6 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                     </div>
                     <button class ="submit-button" type="submit">Submit</button>
                 </form>
+                <div class="">
+                    <p class="center_text mt-3">Already have an account? <span><a href="/project_SignUp/login.php">Log in</a></span></p>
+                </div>
                 <div class="stay_connect">
                     <h4>Stay connected with us</h4>
                     <i class="fab fa-facebook iconn"></i>
