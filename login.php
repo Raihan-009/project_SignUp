@@ -1,12 +1,12 @@
 <?php
-
 $loginAlert = false;
 $confirmuserinfoAlert = false;
 $entryAlert = false;
+$verificationAlert = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    include 'backend/connection.php';
+    include 'connection.php';
     $username = $_POST['username'];
     $password = $_POST['pass'];
 
@@ -20,17 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
             while ($row = mysqli_fetch_assoc($result))
             {
-                if (password_verify($password, $row['Password']))
+                if($row['Status'] == 1)
                 {
-                    $loginAlert = true;
-                    session_start();
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['username'] = $username;
-                    header("location: home.php");
-                    
+                    if (password_verify($password, $row['Password']))
+                    {
+                        $loginAlert = true;
+                        session_start();
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['username'] = $username;
+                        header("location: home.php");
+                        
+                    }else
+                    {
+                        $confirmuserinfoAlert = "Your info didnt match.";
+                    }
                 }else
                 {
-                    $confirmuserinfoAlert = "Your info didnt match.";
+                    $verificationAlert = "Your email has not verified yet.";
                 }
             }
         }else
@@ -62,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
   <body>
     <!-- Create database connection -->
     <?php
-        require 'backend/nav.php'
+        require 'nav.php'
     ?>
     <!-- Showing Alert -->
     <?php
@@ -87,6 +93,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
         }
+        if ($verificationAlert)
+        {
+            echo '<div class="alert alert-danger alert-dismissible" role="alert">
+                        <strong>Unverified Email!</strong> '. $verificationAlert .'
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+        }
     ?>
     <!-- front end part starts here : sign up session -->
         <div class="container mt-3">
@@ -102,10 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                     </div>
                     <div class="mb-3">
                         <label for="pass" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pass" name = "pass" minlength="8" aria-describedby="emailHelp">
+                        <input type="password" class="form-control" id="pass" name = "pass" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     </div>
-                    <button class ="submit-button" type="submit">Submit</button>
+                    <button class ="submit-button" type="submit">log in</button>
                 </form>
                 <div class="">
                     <p class="center_text mt-3">Don't have an account? <span><a href="/project_SignUp/signup.php">Create new</a></span></p>
