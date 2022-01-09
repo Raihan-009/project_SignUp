@@ -1,18 +1,61 @@
 <?php
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+
+    function sendingMail($emailaddress,$v_code)
+    {
+        require ("PHPMailer/Exception.php");
+        require ("PHPMailer/SMTP.php");
+        require ("PHPMailer/PHPMailer.php");
+
+        $mail = new PHPMailer(true);
+
+        try {
+            //Server settings
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = 'islamraihan498@gmail.com';                     //SMTP username
+            $mail->Password   = 'admin_1809009';                               //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        
+            //Recipients
+            $mail->setFrom('islamraihan498@gmail.com', 'Mailer');
+            $mail->addAddress($emailaddress);     //Add a recipient
+        
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Email Verification';
+            $mail->Body    = "To verify your email <a href='http://localhost/project_SignUp/verification.php?email=$emailaddress&v_code=$v_code'>Click Here</a>";
+        
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+
+    }
+?>
+<?php
 
 $signupAlert = false;
+$signupAlert2 = false;
 $confirmpasswordAlert = false;
 $entryAlert = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    include 'backend/connection.php';
+    include 'connection.php';
     $username = $_POST['username'];
+    $emailaddress = $_POST['email'];
     $password = $_POST['pass'];
     $confirmpassword = $_POST['confirmpass'];
     $usernameexistsAlert = false;
 
-    if (!empty ($username) && !empty($password) && !empty($confirmpassword))
+    if (!empty ($username) && !empty($emailaddress) && !empty($password) && !empty($confirmpassword))
     {
         $_sql = "SELECT * FROM `users_info` WHERE username = '$username'";
         $result = mysqli_query($conn, $_sql);
@@ -26,12 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             if (($password == $confirmpassword))
             {
                 $secret = password_hash($password, PASSWORD_DEFAULT);
+                $v_code = bin2hex(random_bytes(16));
                 // echo $secret;
-                $sql = "INSERT INTO `users_info` (`Username`, `Password`, `Time`) VALUES ('$username', '$secret', current_timestamp())";
+                $sql = "INSERT INTO `users_info` (`Username`,`Email`, `Password`,`VerificationCode`, `Status`, `Time`) VALUES ('$username','$emailaddress', '$secret','$v_code','0', current_timestamp())";
                 $result = mysqli_query($conn, $sql);
-                if ($result)
+                $mailing = sendingMail($_POST['email'],$v_code);
+                // echo var_dump($mailing);
+                if ($result && $mailing)
                 {
                     $signupAlert = true;
+                }else
+                {
+                    $signupAlert2 = true;
                 }
             }else
             {
@@ -61,14 +110,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
   <body>
     <!-- Create database connection -->
     <?php
-        require 'backend/nav.php'
+        require 'nav.php'
     ?>
     <!-- Showing Alert -->
     <?php
         if ($signupAlert)
         {
             echo '<div class="alert alert-success alert-dismissible" role="alert">
-                        <strong>Success!</strong> Your account has been created.
+                        <strong>Success!</strong> Your account has been created. We sent you an email. Please verify your account before login.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+        }
+        if ($signupAlert2)
+        {
+            echo '<div class="alert alert-warning alert-dismissible" role="alert">
+                        <strong>Error!</strong> Something Went wrong with your email verification.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
         }
@@ -93,6 +149,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
         }
+        if($verified)
+        {
+            echo '<div class="alert alert-success alert-dismissible" role="alert">
+                        <strong>Verified!</strong> Your email has verified. You can login now.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>';
+        }
     ?>
     <!-- front end part starts here : sign up session -->
         <div class="container mt-3">
@@ -107,13 +170,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                         <input type="text" class="form-control" id="username" name = "username" maxlength="10" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
+                        <label for="username" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name = "email" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
                         <label for="pass" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pass" name = "pass" minlength="8" aria-describedby="emailHelp">
+                        <input type="password" class="form-control" id="pass" name = "pass" minlength="1" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="confirmpass" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmpass" name = "confirmpass" minlength="8">
+                        <input type="password" class="form-control" id="confirmpass" name = "confirmpass" minlength="1">
                     </div>
                     <button class ="submit-button" type="submit">Submit</button>
                 </form>
