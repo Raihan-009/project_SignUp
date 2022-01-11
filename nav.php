@@ -26,6 +26,9 @@ if (!$loggedin)
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/project_SignUp/login.php">login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/project_SignUp/resetpassword.php">Reset Password</a>
           </li>';
 }
 

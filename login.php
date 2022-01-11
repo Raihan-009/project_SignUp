@@ -123,6 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                 <div class="">
                     <p class="center_text mt-3">Don't have an account? <span><a href="/project_SignUp/signup.php">Create new</a></span></p>
                 </div>
+                <div class="">
+                    <p class="center_text mt-3">Forget password? To reset <span><a href="/project_SignUp/resetpassword.php">Click here</a></span></p>
+                </div>
                 <div class="stay_connect">
                     <h4>Stay connected with us</h4>
                     <i class="fab fa-facebook iconn"></i>

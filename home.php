@@ -22,7 +22,7 @@
   </head>
   <body>
     <?php
-        require 'backend/nav.php';
+        require 'nav.php';
         echo '<div>
                 <h1 class="center_text">Welcome '. $_SESSION['username'] .'</h1>
             </div>';

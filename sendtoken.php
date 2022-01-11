@@ -3,7 +3,7 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
-// Generating a function which will send a mail to user
+    // Generating a function which will send a mail to user
     function sendingtoken($email,$token)
     {
         require ("PHPMailer/Exception.php");
@@ -30,7 +30,7 @@
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Password Reset';
-            $mail->Body    = "To verify your email <a href='http://localhost/project_SignUp/verifypassword.php?email=$email&token=$token'>Click Here</a>"; //rederecting to verifypassword.php file
+            $mail->Body    = "To reset your password <a href='http://localhost/project_SignUp/verifypassword.php?email=$email&token=$token'>Click Here</a>"; //rederecting to verifypassword.php file
         
             $mail->send();
             return true; // returning true if mail sent successfully

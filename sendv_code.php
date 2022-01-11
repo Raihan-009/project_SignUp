@@ -29,7 +29,7 @@
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Email Verification';
-            $mail->Body    = "To verify your email <a href='http://localhost/project_SignUp/verification.php?email=$emailaddress&v_code=$v_code'>Click Here</a>";
+            $mail->Body    = "To verify your email <a href='http://localhost/project_SignUp/verifyemail.php?email=$emailaddress&v_code=$v_code'>Click Here</a>";
         
             $mail->send();
             return true;

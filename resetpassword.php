@@ -65,6 +65,7 @@
 
     <title>Reset Password</title>
   </head>
+  
   <body>
 
     <!-- Navbar for frontend -->
@@ -93,38 +94,39 @@
 
 
     <!-- front end part starts here : sign up session -->
-        <div class="container mt-3">
-            <div class="half-part bg_img">
-                <img src="reset.png" alt="">
+    <div class="container mt-3">
+        <div class="half-part bg_img">
+            <img src="reset.png" alt="">
+        </div>
+        <div class="half-part">
+            <h3 class = "center_text">Reset Your Password (Step 01)</h3>
+            <form action = "/project_SignUp/resetpassword.php" method = "POST">
+                <br>
+                <br>
+                <div class="mb-3 mt-5">
+                    <!-- <label for="email" class="form-label"></label> -->
+                    <h6 class="center_text">Enter your email address to sent a reset link.</h6>
+                    <input type="email" class="form-control" id="email" name = "email" aria-describedby="emailHelp">
+                </div>
+                <button class ="submit-button" type="submit">Submit</button>
+            </form>
+            <div class="">
+                <p class="center_text mt-2">Already have an account? <span><a href="/project_SignUp/login.php">Log in</a></span></p>
             </div>
-            <div class="half-part">
-                <h3 class = "center_text">Reset Your Password (Step 01)</h3>
-                <form action = "/project_SignUp/resetpassword.php" method = "POST">
-                    <br>
-                    <br>
-                    <div class="mb-3 mt-5">
-                        <!-- <label for="email" class="form-label"></label> -->
-                        <h6 class="center_text">Enter your email address to sent a reset link.</h6>
-                        <input type="email" class="form-control" id="email" name = "email" aria-describedby="emailHelp">
-                    </div>
-                    <button class ="submit-button" type="submit">Submit</button>
-                </form>
-                <div class="">
-                    <p class="center_text mt-2">Already have an account? <span><a href="/project_SignUp/login.php">Log in</a></span></p>
-                </div>
-                <div class="">
-                    <p class="center_text mt-2">Don't have an account? <span><a href="/project_SignUp/signup.php">Create new</a></span></p>
-                </div>
-                <div class="stay_connect">
-                    <h4>Stay connected with us</h4>
-                    <i class="fab fa-facebook iconn"></i>
-                    <i class="fab fa-instagram-square iconn"></i>
-                    <i class="fab fa-linkedin iconn"></i>
-                </div>
+            <div class="">
+                <p class="center_text mt-2">Don't have an account? <span><a href="/project_SignUp/signup.php">Create new</a></span></p>
+            </div>
+            <div class="stay_connect">
+                <h4>Stay connected with us</h4>
+                <i class="fab fa-facebook iconn"></i>
+                <i class="fab fa-instagram-square iconn"></i>
+                <i class="fab fa-linkedin iconn"></i>
             </div>
         </div>
+    </div>
 
-   <!-- js dependencies -->
+   
+    <!-- js dependencies -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
